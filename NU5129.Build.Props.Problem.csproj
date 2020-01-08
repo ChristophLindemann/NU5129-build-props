@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+  ============================================================================================
+  Following $(Behaviour) property can be set to
+  - SameName : No problem, everything works fine
+  - DifferentName: NU5129 build warning
+  ============================================================================================
+  -->
+  <PropertyGroup>
+    <Behaviour>DifferentName</Behaviour>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <Description>Demonstration of build/packageid.props problem</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Set default behaviour -->
+    <Behaviour Condition="'$(Behaviour)' == ''">SameName</Behaviour>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.28" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Remove everything -->
+    <Content Remove="**" />
+    <None Remove="**" />
+    
+    <None Include="README.md" />
+
+    <!-- Add the build .props files, except the NU5129.Build.Props.Problem.props file, as we add it based on the test case -->
+    <None Include="build/**/*.props" Exclude="**\$(PackageId).props" Pack="true" BuildAction="None" PackagePath="build/" Link="build\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- 
+  ============================================================================================
+  SameName Behaviour
+  No problem, everything works fine
+  ============================================================================================
+  -->
+  <ItemGroup Condition="'$(Behaviour)' == 'SameName'">
+    <!-- Add NU5129.Build.Props.Problem.props file -->
+    <None Include="build/$(PackageId).props" Exclude="@(None)" Pack="true" BuildAction="None" PackagePath="build/$(PackageId).props" Link="build\$(PackageId).props" />
+  </ItemGroup>
+
+  <!-- 
+  ============================================================================================
+  DifferentName Behaviour
+  NU5129 build warning
+  
+  Only difference to "SameName" is, that the %(Identity) is different, %(PackagePath) is identical
+  ============================================================================================
+  -->
+  <ItemGroup Condition="'$(Behaviour)' == 'DifferentName'">
+    <!-- Add Package.props.default as NU5129.Build.Props.Problem.props -->
+    <None Include="build\Package.props.default" Exclude="@(None)" Pack="true" BuildAction="None" PackagePath="build/$(PackageId).props" Link="build\$(PackageId).props" />
+  </ItemGroup>
+
+
+  <!-- 
+  ============================================================================================
+  Trace
+  ============================================================================================
+  -->
+  <Target
+    Name="_DumpSomeDebugInfoAfterPack"
+    AfterTargets="GenerateNuspec;Pack">
+
+    <Message Importance="High" Text="Behaviour: $(Behaviour)" />
+    <Error Text="Behaviour was not set." Condition="'$(Behaviour)' == ''" />
+
+    <Message Importance="High" Text="Pack Input" />
+    <Message Importance="High" Text="PackTask::PackageFiles: PackagePath=%(_PackageFiles.PackagePath); Identity=%(Identity); " />
+  </Target>
+
+</Project>
