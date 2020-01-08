@@ -3,7 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NU5129.Build.Props.Problem", "NU5129.Build.Props.Problem.csproj", "{CA7DA6AD-1232-486B-9DEC-AC408150ABA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NU5129.Build.Props.Problem", "NU5129.Build.Props.Problem\NU5129.Build.Props.Problem.csproj", "{CA7DA6AD-1232-486B-9DEC-AC408150ABA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PackageIdProps", "PackageIdProps", "{9772E3B5-E299-466A-9B75-C247C6A0B144}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddCorrectNameAndFolder", "AddCorrectNameAndFolder", "{2999A959-555E-4D0B-B8DC-2A6AAFB4DC7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddDifferentNameAndFolder", "AddDifferentNameAndFolder", "{CDA6912F-270C-4222-95F3-A02309C91947}"
+	ProjectSection(SolutionItems) = preProject
+		AddDifferentNameAndFolder\Package.props = AddDifferentNameAndFolder\Package.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B5245679-CA51-4890-BBFA-9FA10CC22782}"
+	ProjectSection(SolutionItems) = preProject
+		AddCorrectNameAndFolder\build\NU5129.Build.Props.Problem.props = AddCorrectNameAndFolder\build\NU5129.Build.Props.Problem.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +32,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2999A959-555E-4D0B-B8DC-2A6AAFB4DC7F} = {9772E3B5-E299-466A-9B75-C247C6A0B144}
+		{CDA6912F-270C-4222-95F3-A02309C91947} = {9772E3B5-E299-466A-9B75-C247C6A0B144}
+		{B5245679-CA51-4890-BBFA-9FA10CC22782} = {2999A959-555E-4D0B-B8DC-2A6AAFB4DC7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {91818477-37AD-4FC4-893D-575CAB369AF1}
